@@ -70,6 +70,17 @@
         alert(this.delNum);
       }
 
+      //点击列表元素，删除自己
+      List.prototype.clickRemoveOwn = function() {
+        var showBox = document.querySelector('.show-box');
+        var aSpan = showBox.querySelectorAll('span');
+        Array.prototype.forEach.call(aSpan, function(item) {
+          item.addEventListener('click', function() {
+            showBox.removeChild(this);
+          }, false);
+        })
+      }
+
       //渲染列表
       List.prototype.renderList = function() {
         var showBox = document.querySelector('.show-box');
@@ -78,6 +89,7 @@
           listHtml += '<span>'+ item +'</span>';
         })
         showBox.innerHTML = listHtml;
+        this.clickRemoveOwn();
       }
 
       //初始化
