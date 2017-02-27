@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>输入输出</title>
+  <style type="text/css">
+    .input-box input[type=text] {
+      padding-left: 10px;
+      width: 140px;
+      height: 24px;
+      line-height: 24px;
+      outline: none;
+    }
+    .input-box input[type=button] {
+      width: 60px;
+      height: 26px;
+      line-height: 26px;
+    }
+    .show-box {
+      padding-top: 10px;
+    }
+    .show-box span {
+      margin-right: 10px;
+      display: inline-block;
+      padding: 6px;
+      background: red;
+      color: #fff;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+  <div class="input-box">
+    <input id="ipt" type="text" name="">
+    <input id="leftIn" type="button" value="左侧入">
+    <input id="rightIn" type="button" value="右侧入">
+    <input id="leftOut" type="button" value="左侧出">
+    <input id="rightOut" type="button" value="右侧出">
+  </div>
+  <div class="show-box">
+    <!-- <span>10</span> -->
+  </div>
+  <script type="text/javascript">
+    (function() {
+
+      //创建列表对象
+      function List() {
+        this.numArr = [];
+        this.delNum = null;
+      }
+
+      //左侧入
+      List.prototype.leftIn = function(num) {
+        this.numArr.unshift(num);
+      }
+
+      //右侧入
+      List.prototype.rightIn = function(num) {
+        this.numArr.push(num);
+      }
+
+      //左侧出
+      List.prototype.leftOut = function() {
+        this.delNum = this.numArr.shift();
+        alert(this.delNum);
+      }
+
+      // 右侧出
+      List.prototype.rightOut = function(num) {
+        this.delNum = this.numArr.pop();
+        alert(this.delNum);
+      }
+
+      //渲染列表
+      List.prototype.renderList = function() {
+        var showBox = document.querySelector('.show-box');
+        var listHtml = '';
+        this.numArr.forEach(function(item) {
+          listHtml += '<span>'+ item +'</span>';
+        })
+        showBox.innerHTML = listHtml;
+      }
+
+      //初始化
+      function init() {
+        var iList = new List();
+
+        //点击左侧入
+        document.querySelector('#leftIn').addEventListener('click', function() {
+          var iptVal = document.querySelector('#ipt').value.trim();
+          if(!iptVal) {
+            alert('不能为空');
+            return;
+          }
+          document.querySelector('#ipt').value = '';
+          iList.leftIn(iptVal);
+          iList.renderList();
+        }, false);
+
+        //点击右侧入
+        document.querySelector('#rightIn').addEventListener('click', function() {
+          var iptVal = document.querySelector('#ipt').value.trim();
+          if(!iptVal) {
+            alert('不能为空');
+            return;
+          }
+          document.querySelector('#ipt').value = '';
+          iList.rightIn(iptVal);
+          iList.renderList();
+        }, false);
+
+        //点击左侧出
+        document.querySelector('#leftOut').addEventListener('click', function() {
+          iList.leftOut();
+          iList.renderList();
+        }, false);
+
+        //点击右侧出
+        document.querySelector('#rightOut').addEventListener('click', function() {
+          iList.rightOut();
+          iList.renderList();
+        }, false);
+      }
+
+      init();
+
+    })();
+  </script>
+</body>
+</html>
